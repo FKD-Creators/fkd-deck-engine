@@ -131,6 +131,16 @@
     const s = document.createElement('script'); s.src = ENGINE_BASE + 'fkd-icons.js'; s.onload = add; s.onerror = () => console.warn('[FKD] fkd-icons.js não encontrado em ' + ENGINE_BASE); document.head.appendChild(s);
   }
 
+  /* ---------- Placeholder de foto quando a pasta img/ não existe (engine remoto) --------- */
+  function fallbackPlaceholders() {
+    $$('img').forEach((img) => {
+      const src = img.getAttribute('src') || '';
+      if (!/placeholder-retrato\.svg$/.test(src) || img.dataset.fallback) return;
+      const swap = () => { if (img.dataset.fallback) return; img.dataset.fallback = '1'; img.src = ENGINE_BASE + '../img/placeholder-retrato.svg'; };
+      if (img.complete && img.naturalWidth === 0) swap(); else img.addEventListener('error', swap, { once: true });
+    });
+  }
+
   /* ---------- Passos (builds) ------------------------------------------- */
   function stepsOf(slide) {
     return $$('[data-step]', slide).sort((a, b) => (+a.dataset.step || 0) - (+b.dataset.step || 0));
@@ -446,7 +456,7 @@
   /* ---------- Init ------------------------------------------------------ */
   function init() {
     if (!deck || slides.length === 0) return;
-    numberSlides(); ensureIcons();
+    numberSlides(); ensureIcons(); fallbackPlaceholders();
     if (isPrint) { printMode(); window.FKDDeck = { report: () => slides.map((s, i) => { index = i; return report(s); }), slides }; return; }
 
     fitStage();

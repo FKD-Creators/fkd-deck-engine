@@ -29,11 +29,13 @@ conferir que a pasta funciona e para ver o padrão.
 
 ## Hospedagem (equipe de tecnologia)
 
-O deck também funciona sem a pasta local se a URL hospedada estiver preenchida em
-`FKD_ENGINE_CDN` no topo do `index.html` (o esqueleto da skill traz a variável vazia). Para isso,
-publique a pasta `engine/` em qualquer servidor estático (GitHub Pages ou jsDelivr a partir de um
-repositório, Vercel, S3, o próprio site) e preencha a URL (terminando em `/engine/`) no esqueleto
-da skill antes de reenviar a skill ao Gemini. Com a URL preenchida, o preview no Canvas do Gemini
-também passa a mostrar o deck.
+O engine está publicado em `https://github.com/FKD-Creators/fkd-deck-engine` e servido pelo jsDelivr:
+`https://cdn.jsdelivr.net/gh/FKD-Creators/fkd-deck-engine@main/engine/`. O esqueleto da skill já traz essa URL em `FKD_ENGINE_CDN`, então o deck abre mesmo sem a
+pasta local (e o preview no Canvas do Gemini funciona). A pasta local continua sendo o caminho
+principal: funciona sem internet e é a que vai para o servidor junto com a apresentação.
+
+Para atualizar o engine: commit no repositório; o jsDelivr pode manter a versão anterior em cache
+por até 12 horas (`https://purge.jsdelivr.net/gh/FKD-Creators/fkd-deck-engine@main/engine/<arquivo>`
+força a atualização). Depois, redistribua a pasta "FKD Deck" e reenvie a skill se o esqueleto mudou.
 
 Para subir uma apresentação a um site, envie a pasta inteira (`index.html`, `engine/`, `img/`).
