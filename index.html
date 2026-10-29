@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Título da apresentação · FKD Creators</title>
+<!-- ======================================================================
+     ENGINE FKD. Não edite este bloco. Duas opções de origem:
+     FKD_ENGINE      = pasta "engine/" ao lado deste arquivo (pasta "FKD Deck" distribuída pela tecnologia)
+     FKD_ENGINE_CDN  = URL hospedada (usada se a pasta local não existir; necessária para o preview no Canvas do Gemini)
+     ====================================================================== -->
+<script>
+  var FKD_ENGINE = "engine/";
+  var FKD_ENGINE_CDN = "";
+</script>
+<script>
+(function () {
+  var CSS = ['fonts/fonts.css', 'fkd-deck.css', 'fkd-components.css'], JS = ['fkd-symbols.js', 'fkd-charts.js', 'fkd-deck.js'];
+  CSS.forEach(function (f) { document.write('<link rel="stylesheet" href="' + FKD_ENGINE + f + '">'); });
+  JS.forEach(function (f) { document.write('<script src="' + FKD_ENGINE + f + '" defer><\/script>'); });
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.FKDCharts) return;                       // engine local carregou
+    var base = FKD_ENGINE_CDN;
+    if (!base) { showHelp(); return; }
+    var pending = CSS.length;
+    CSS.forEach(function (f) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = base + f; l.onload = l.onerror = done; document.head.appendChild(l); });
+    function done() { if (--pending) return; (function next(i) { if (i >= JS.length) return check(); var s = document.createElement('script'); s.src = base + JS[i]; s.async = false; s.onload = function () { next(i + 1); }; s.onerror = showHelp; document.head.appendChild(s); })(0); }
+    function check() { if (!window.FKDDeck) showHelp(); }
+  });
+  function showHelp() {
+    if (document.getElementById('fkd-engine-help')) return;
+    var d = document.createElement('div'); d.id = 'fkd-engine-help';
+    d.style.cssText = 'position:fixed;inset:0;z-index:999999;background:#1E1F2A;color:#E4E6F0;font:18px/1.5 system-ui,sans-serif;padding:48px;';
+    d.innerHTML = '<h1 style="font-size:28px;margin:0 0 16px">Engine FKD não encontrado</h1><p>Este arquivo precisa ficar <strong>dentro da pasta "FKD Deck"</strong> (ao lado da pasta <code>engine/</code>), ou ter a URL hospedada preenchida em <code>FKD_ENGINE_CDN</code> no topo do arquivo.</p><p>Peça a pasta "FKD Deck" à equipe de tecnologia, salve este arquivo como <code>index.html</code> dentro dela e abra de novo.</p>';
+    document.body.appendChild(d);
+  }
+})();
+</script>
+<style>
+  /* Ajustes específicos deste deck (mantenha curto; o sistema está no engine) */
+</style>
+</head>
+<body>
+
+
+
+<!-- Símbolos da marca, grafismos, ícones e o chrome (logo, stamp, rodapé) são injetados pelo engine. -->
+
+<div class="stage">
+<!-- Um grafismo por deck (brandbook: as aplicações usam sempre o mesmo). Slides só ajustam flags. -->
+<div class="deck" data-transition="fade" data-grafismo="3 loop" data-grain="on">
+
+  <!-- ===== 00 TELA DE ESPERA (fica no telão antes de começar) ============ -->
+  <section class="slide l-idle" data-theme="dark" data-grafismo="6 loop moire strong" data-chrome="none" data-transition="fade" id="espera">
+    <div class="content">
+      <div class="idle-logo"><svg viewBox="0 0 747 225"><use href="#fkd-logo"/></svg></div>
+      <div class="idle-center" data-allow-overflow>
+        <div class="stamp is-xl" data-stamp></div>
+      </div>
+      <div class="idle-foot"><span class="idle-hint">Cliente · out/2026</span><span class="idle-time" data-clock></span></div>
+    </div>
+    <aside class="notes">Tela de espera. Avance quando todos estiverem sentados.</aside>
+  </section>
+
+  <!-- ===== 01 CAPA ===================================================== -->
+  <section class="slide l-cover" data-theme="lime" data-grafismo="3 loop moire" data-chrome="minimal" data-transition="rise" id="capa">
+    <div class="content">
+      <div class="stack is-tight self-end">
+        <p class="eyebrow has-line" data-in="fade">Cliente · out/2026</p>
+        <h1 class="t-display" data-in="clip" data-vt="title" data-fit data-fit-min="0.6" style="max-width: 1500px; max-height: 560px">Título da apresentação</h1>
+        <p class="t-lead t-max-50" data-in="up" data-delay="500">Subtítulo em uma frase: o que a audiência leva desta apresentação.</p>
+        <p class="cover-meta" data-in="fade" data-delay="700">Área ou departamento · tipo da apresentação (interna, comercial, institucional)</p>
+      </div>
+    </div>
+    <aside class="notes">Abertura. Fale a big idea em uma frase antes de mostrar qualquer número.</aside>
+  </section>
+
+  <!-- ===== 02 AGENDA ==================================================== -->
+  <section class="slide l-agenda" data-theme="dark" data-grafismo="2 faint" data-transition="slide">
+    <div class="content">
+      <div class="area-a stack">
+        <p class="eyebrow has-line" data-in="fade">O percurso</p>
+        <h2 class="t-h2" data-in="up" data-vt="title">Quatro partes, uma decisão no final</h2>
+      </div>
+      <ol class="agenda area-b" data-stagger="120">
+        <li data-in="up"><div><div class="ag-title">O custo</div><div class="ag-text">Baseline medido, teto contratual e a distância entre os dois.</div></div></li>
+        <li data-in="up"><div><div class="ag-title">A arquitetura</div><div class="ag-text">Cascata de cinco níveis e o orçamento que ela produz.</div></div></li>
+        <li data-in="up"><div><div class="ag-title">A evidência</div><div class="ag-text">De onde vem cada cifra e o grau de certeza de cada uma.</div></div></li>
+        <li data-in="up"><div><div class="ag-title">As lacunas</div><div class="ag-text">O que ainda falta medir e quem decide o próximo passo.</div></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== 03 DIVISÓRIA DE SEÇÃO ======================================== -->
+  <section class="slide l-section" data-theme="blue" data-grafismo="5 loop moire strong" data-transition="circle">
+    <div class="content">
+      <div class="num-big" data-in="left">01</div>
+      <h2 class="t-h1" data-in="clip" data-vt="title">O custo</h2>
+      <p class="t-lead t-max-60" data-in="up" data-delay="400">Quanto custa analisar uma pessoa hoje, quanto o contrato paga e o tamanho da distância.</p>
+    </div>
+  </section>
+
+  <!-- ===== 04 ESTATÍSTICA HERÓI ======================================== -->
+  <section class="slide l-stat-hero" data-theme="light" data-grafismo="4 faint" data-transition="rise">
+    <div class="content">
+      <h2 class="t-h2 area-head t-max-60" data-in="up" data-fit style="max-height: 200px">Analisar uma pessoa custa hoje de US$ 12 a 21</h2>
+      <div class="area-main row is-between self-center">
+        <div class="stat is-xl is-accent" data-in="pop" data-vt="hero-stat">
+          <div class="t-stat" data-fit data-fit-min="0.6">US$ 12<span class="unit"> a </span>21</div>
+          <div class="stat-label is-tag">por pessoa analisada</div>
+          <p class="stat-note">Medido no motor atual, com três passes de modelos diferentes.</p>
+        </div>
+        <div class="stat is-m" data-in="pop" data-delay="300">
+          <div class="t-stat">US$ 3,60</div>
+          <div class="stat-label">teto do contrato</div>
+          <p class="stat-note">Cobre coleta, motor de análise e trilha web.</p>
+        </div>
+        <div class="stat is-m" data-in="pop" data-delay="450">
+          <div class="t-stat">3,3<span class="unit">×</span> a 5,8<span class="unit">×</span></div>
+          <div class="stat-label">distância a vencer</div>
+          <p class="stat-note">Cobertura e limite de erro não podem cair para caber no teto.</p>
+        </div>
+      </div>
+      <p class="t-source area-foot" data-in="fade">medição interna do motor, set/2026.</p>
+    </div>
+  </section>
+
+  <!-- ===== 05 DUAS COLUNAS: TEXTO + LISTA ============================== -->
+  <section class="slide l-head-split" data-theme="white" data-grafismo="1 faint" data-transition="slide">
+    <div class="content">
+      <div class="area-head stack is-tight">
+        <p class="eyebrow has-line" data-in="fade">Vazão</p>
+        <h2 class="t-h2" data-in="up" data-fit style="max-height: 200px">A vazão fecha porque a hora não é contínua</h2>
+      </div>
+      <div class="area-a stack">
+        <p class="t-lead" data-in="up" data-delay="200">O mês inteiro de conteúdo cabe em 24,1 horas de processamento. A exigência é de pico, não de fluxo contínuo.</p>
+        <div class="callout" data-in="up" data-delay="350">Frota fixa cobra 720 horas por mês para usar 24. Por hora, cobra 24. O número de placas muda o prazo, não a conta.</div>
+      </div>
+      <ul class="list is-numbered area-b" data-stagger="140">
+        <li data-in="up" data-step="1"><div><span class="li-title">361 mil conteúdos por mês</span>Divididos por 15 mil por hora dão 24,1 horas de processamento.</div></li>
+        <li data-in="up" data-step="2"><div><span class="li-title">6 máquinas de 8 núcleos</span>Cobrem 35,6 horas de processador por hora de parede no mix medido.</div></li>
+        <li data-in="up" data-step="3"><div><span class="li-title">159 horas de GPU</span>Custa o mesmo rodar uma placa por 159 horas ou 6,6 placas por 24.</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 06 GRÁFICO: CASCATA DE CUSTO ================================ -->
+  <section class="slide l-chart" data-theme="dark" data-grafismo="1 faint" data-transition="morph">
+    <div class="content">
+      <div class="area-head stack is-tight">
+        <p class="eyebrow has-line" data-in="fade">Orçamento por pessoa</p>
+        <h2 class="t-h2" data-in="up" data-fit style="max-height: 200px">Com volume medido, o total fecha em US$ 1,92</h2>
+      </div>
+      <figure class="chart area-main" data-chart="waterfall" data-in="fade" data-delay="300"
+        data-labels="N0 coleta|N1 extração|API N2–N4|Modelo local|Servidor|Trilha web"
+        data-values="0,16256|0,2299|0,6227|0,0758|0,2729|0,56"
+        data-format="prefix:US$ " data-target="3,60" data-target-label="teto" data-total-label="Total" data-highlight="5"></figure>
+      <p class="t-source area-foot" data-in="fade">cascata de API medida em 28/08; trilha web é a linha menos estudada (até US$ 0,56).</p>
+    </div>
+  </section>
+
+  <!-- ===== 07 PROCESSO EM ETAPAS ======================================= -->
+  <section class="slide l-process" data-theme="violet" data-grafismo="2 loop" data-transition="slide">
+    <div class="content">
+      <div class="area-head stack is-tight">
+        <p class="eyebrow has-line" data-in="fade">A cascata, nível por nível</p>
+        <h2 class="t-h2" data-in="up">Todo conteúdo passa pelos três primeiros níveis</h2>
+      </div>
+      <div class="steps area-main self-center" data-stagger="160">
+        <div class="step" data-in="up"><span class="num-chip">N0</span><div class="step-title">Enumeração</div><p class="step-text">Lista todos os conteúdos de cada perfil, paginando até o fim. Não julga nada.</p><span class="tag">100%</span></div>
+        <div class="step" data-in="up"><span class="num-chip">N1</span><div class="step-title">Extração</div><p class="step-text">Baixa a mídia, escolhe quadros, transcreve a fala e lê o texto na tela.</p><span class="tag">100%</span></div>
+        <div class="step" data-in="up"><span class="num-chip">N2</span><div class="step-title">Triagem</div><p class="step-text">Ordena por suspeita, em lote. Acima do limiar, sobe para julgamento.</p><span class="tag">100%</span></div>
+        <div class="step" data-in="up"><span class="num-chip">N3</span><div class="step-title">Julgamento</div><p class="step-text">Mesmo modelo, dobro da profundidade: 12 quadros e 90 s de áudio.</p><span class="tag is-outline">~35%</span></div>
+        <div class="step" data-in="up"><span class="num-chip">N4</span><div class="step-title">Arbitragem</div><p class="step-text">Dois métodos independentes julgam. Divergência vira caso para humano.</p><span class="tag is-outline">~8%</span></div>
+      </div>
+      <p class="t-source area-foot" data-in="fade">as fatias de 35% e 8% são estimativa de orçamento, não medição.</p>
+    </div>
+  </section>
+
+  <!-- ===== 08 FOTO À DIREITA + TEXTO ==================================== -->
+  <section class="slide l-photo-right" data-theme="coral" data-grafismo="3 faint" data-transition="zoom">
+    <div class="content">
+      <div class="area-main stack self-center">
+        <p class="eyebrow has-line" data-in="fade">Revisão humana</p>
+        <h2 class="t-h2" data-in="up" data-fit style="max-height: 420px">A IA levanta os sinais. Quem decide é a equipe.</h2>
+        <p class="t-body t-max-50" data-in="up" data-delay="300">Todo conteúdo sinalizado como risco passa por validação humana antes do relatório. De 19.891 itens decididos por revisor, 6.782 não confirmaram a marcação da IA.</p>
+        <div class="stat is-s" data-in="pop" data-delay="450"><div class="t-stat">34,1<span class="unit">%</span></div><div class="stat-label is-tag">marcações não confirmadas</div></div>
+      </div>
+      <div class="media is-float area-media" data-in="tilt" data-parallax="0.35" data-delay="150">
+        <img src="img/placeholder-retrato.svg" alt="Analista revisando um caso na tela">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 09 COMPARAÇÃO LADO A LADO =================================== -->
+  <section class="slide l-compare" data-theme="yellow" data-grafismo="4 faint" data-transition="slide">
+    <div class="content">
+      <div class="area-head stack is-tight">
+        <p class="eyebrow has-line" data-in="fade">O que a média esconde</p>
+        <h2 class="t-h2" data-in="up">Duas conversas com a mesma média e riscos opostos</h2>
+      </div>
+      <div class="compare-col area-a" data-in="left">
+        <span class="tag">Cenário A</span>
+        <div class="stat is-m"><div class="t-stat">+0,7</div><div class="stat-label">sentimento médio</div></div>
+        <p class="t-body">Comentários alinhados, falando da mesma coisa na mesma direção. Narrativa saudável.</p>
+      </div>
+      <div class="compare-vs area-vs" data-in="pop" data-delay="300">vs</div>
+      <div class="compare-col is-emphasis area-b" data-in="right">
+        <span class="tag">Cenário B</span>
+        <div class="stat is-m"><div class="t-stat">~0,0</div><div class="stat-label">sentimento médio</div></div>
+        <p class="t-body">500 elogiando e 500 atacando dão média zero. O risco é altíssimo e a média escondeu.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10 FRASE-MANIFESTO ========================================== -->
+  <section class="slide l-statement" data-theme="purple" data-grafismo="6 loop moire strong" data-chrome="minimal" data-transition="blur">
+    <div class="content">
+      <h2 class="t-h1 t-center" data-in="clip" data-fit style="max-height: 700px"><span class="hl">Cada número</span> tem origem rastreável e <span class="hl">cada lacuna</span> está nomeada.</h2>
+    </div>
+  </section>
+
+  <!-- ===== 11 PRÓXIMOS PASSOS (CARDS) ================================== -->
+  <section class="slide l-head-cols-4" data-theme="light" data-grafismo="1 faint" data-transition="slide">
+    <div class="content">
+      <div class="area-head stack is-tight">
+        <p class="eyebrow has-line" data-in="fade">O que sugerimos como próximos passos</p>
+        <h2 class="t-h2" data-in="up">Quatro frentes, duas delas sem custo</h2>
+      </div>
+      <div class="card is-float area-a" data-in="float" data-step="1"><div class="card-num">01</div><h3 class="t-h4">Varredura de detector</h3><p class="t-small">Sobre os vídeos já em disco. Destrava o reorçamento da extração.</p></div>
+      <div class="card is-float area-b" data-in="float" data-step="2"><div class="card-num">02</div><h3 class="t-h4">Contrato dos endpoints</h3><p class="t-small">Confirmação no tier gratuito, depois o pedido de crédito para o piloto.</p></div>
+      <div class="card is-float area-c" data-in="float" data-step="3"><div class="card-num">03</div><h3 class="t-h4">Reorçamento da extração</h3><p class="t-small">Incluindo decode integral e a entrada do YouTube.</p></div>
+      <div class="card is-solid is-float area-d" data-in="float" data-step="4"><div class="card-num">04</div><h3 class="t-h4">Benchmark em português</h3><p class="t-small">Começando pelo embedding de texto, que agora tem instrumento.</p></div>
+    </div>
+  </section>
+
+  <!-- ===== 12 FECHAMENTO =============================================== -->
+  <section class="slide l-closing" data-theme="lime" data-grafismo="3 loop moire" data-chrome="minimal" data-transition="cover">
+    <div class="content">
+      <div class="stack self-end">
+        <div class="row" data-in="up"><div class="stat is-m"><div class="t-stat">US$ 12 a 21</div></div><span class="arrow" data-vt="hero-stat"><svg><use href="#fkd-arrow"/></svg></span><div class="stat is-m is-accent"><div class="t-stat">até US$ 1,92</div></div></div>
+        <h2 class="t-h2 t-max-60" data-in="clip" data-delay="300">O que falta agora é medição.</h2>
+        <p class="t-lead" data-in="up" data-delay="500">contato@fkdcreators.com.br · (61) 9131-2875</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+</div>
+
+</body>
+</html>

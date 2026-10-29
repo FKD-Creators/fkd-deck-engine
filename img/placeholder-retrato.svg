@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" width="900" height="1100">
+  <rect width="900" height="1100" fill="#C9CCD9"/>
+  <rect x="80" y="80" width="740" height="940" fill="none" stroke="#1E1F2A" stroke-width="6" stroke-dasharray="24 18"/>
+  <circle cx="450" cy="430" r="150" fill="#1E1F2A" opacity=".15"/>
+  <path d="M170 960c40-200 170-300 280-300s240 100 280 300z" fill="#1E1F2A" opacity=".15"/>
+  <text x="450" y="1000" text-anchor="middle" font-family="Sora, sans-serif" font-size="34" font-weight="600" fill="#1E1F2A">FOTO PENDENTE · gere no Gemini e salve em img/</text>
+</svg>

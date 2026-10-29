@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colar e salvar · FKD Deck</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #1E1F2A; color: #E4E6F0; font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  h1 span { color: #E2FF67; }
+  p { margin: 0 0 12px; color: rgba(228,230,240,.85); }
+  ol { padding-left: 22px; }
+  textarea { width: 100%; box-sizing: border-box; height: 320px; margin: 16px 0 12px; padding: 14px; border-radius: 12px; border: 1px solid rgba(228,230,240,.25); background: #15161e; color: #E4E6F0; font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; resize: vertical; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  button { font: 600 15px/1 system-ui, sans-serif; background: #E2FF67; color: #1E1F2A; border: 0; border-radius: 10px; padding: 14px 18px; cursor: pointer; }
+  button.secondary { background: transparent; color: #E4E6F0; border: 1px solid rgba(228,230,240,.35); }
+  button:disabled { opacity: .45; cursor: default; }
+  #status { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: rgba(255,255,255,.06); min-height: 20px; white-space: pre-wrap; }
+  #status.ok { background: rgba(226,255,103,.12); color: #E2FF67; }
+  #status.bad { background: rgba(233,107,76,.18); color: #ffb39f; }
+  code { background: rgba(255,255,255,.08); padding: 1px 6px; border-radius: 6px; }
+  a { color: #E2FF67; }
+</style>
+</head>
+<body>
+<main>
+  <h1><span>FKD Deck</span> · colar e salvar</h1>
+  <p>Cole aqui o código HTML completo que o Gemini entregou (do <code>&lt;!doctype html&gt;</code> até <code>&lt;/html&gt;</code>) e salve como <code>index.html</code> <strong>nesta mesma pasta</strong>, ao lado da pasta <code>engine/</code>.</p>
+  <ol>
+    <li>No Gemini, copie o bloco de código inteiro (botão "Copiar" do bloco).</li>
+    <li>Cole na caixa abaixo.</li>
+    <li>Clique em <strong>Salvar como index.html</strong> e escolha esta pasta ("FKD Deck"). Se já existir um <code>index.html</code>, substitua.</li>
+    <li>Abra o <code>index.html</code> com duplo clique. Para verificar o encaixe, aperte <code>C</code> dentro da apresentação e copie o relatório para o Gemini.</li>
+  </ol>
+  <textarea id="src" placeholder="Cole o HTML aqui…" spellcheck="false"></textarea>
+  <div class="row">
+    <button id="save" disabled>Salvar como index.html</button>
+    <button id="download" class="secondary" disabled>Baixar index.html (pasta Downloads)</button>
+    <button id="clear" class="secondary">Limpar</button>
+  </div>
+  <div id="status">Aguardando o código…</div>
+</main>
+<script>
+  const src = document.getElementById('src'), status = document.getElementById('status');
+  const btnSave = document.getElementById('save'), btnDl = document.getElementById('download');
+  const canPick = 'showSaveFilePicker' in window;
+  if (!canPick) btnSave.textContent = 'Salvar index.html (use o Chrome ou Edge)';
+  function say(msg, cls) { status.textContent = msg; status.className = cls || ''; }
+  function validate(text) {
+    const t = text.trim(); const problems = [];
+    if (!/^<!doctype html>/i.test(t)) problems.push('não começa com <!doctype html> (copie o bloco inteiro, desde a primeira linha)');
+    if (!/<\/html>\s*$/i.test(t)) problems.push('não termina com </html> (o código veio cortado; peça ao Gemini o arquivo completo)');
+    if (!/class="deck"/.test(t)) problems.push('não tem o <div class="deck"> (não é um deck FKD)');
+    if (!/var FKD_ENGINE\s*=/.test(t)) problems.push('não tem o bloco do engine no <head> (o Gemini precisa copiar o esqueleto da skill)');
+    const slides = (t.match(/<section class="slide/g) || []).length;
+    return { problems, slides, text: t.replace(/\r\n?/g, '\n') + '\n' };
+  }
+  src.addEventListener('input', () => {
+    if (!src.value.trim()) { btnSave.disabled = btnDl.disabled = true; say('Aguardando o código…'); return; }
+    const v = validate(src.value);
+    btnSave.disabled = !canPick || v.problems.length > 0; btnDl.disabled = v.problems.length > 0;
+    if (v.problems.length) say('Ainda não dá para salvar:\n- ' + v.problems.join('\n- '), 'bad');
+    else say('Código válido: ' + v.slides + ' slides. Pode salvar.', 'ok');
+  });
+  btnSave.addEventListener('click', async () => {
+    const v = validate(src.value); if (v.problems.length) return;
+    try {
+      const h = await window.showSaveFilePicker({ suggestedName: 'index.html', types: [{ description: 'Página HTML', accept: { 'text/html': ['.html'] } }] });
+      const w = await h.createWritable(); await w.write(v.text); await w.close();
+      say('Salvo como "' + h.name + '". Agora abra o arquivo com duplo clique (precisa estar nesta pasta, ao lado de engine/).', 'ok');
+    } catch (e) { if (e && e.name !== 'AbortError') say('Não consegui salvar: ' + e.message + '. Use "Baixar index.html" e mova o arquivo para esta pasta.', 'bad'); }
+  });
+  btnDl.addEventListener('click', () => {
+    const v = validate(src.value); if (v.problems.length) return;
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([v.text], { type: 'text/html' })); a.download = 'index.html'; a.click();
+    say('index.html baixado para a pasta Downloads. Mova-o para esta pasta "FKD Deck" (ao lado de engine/) e abra com duplo clique.', 'ok');
+  });
+  document.getElementById('clear').addEventListener('click', () => { src.value = ''; src.dispatchEvent(new Event('input')); });
+</script>
+</body>
+</html>
