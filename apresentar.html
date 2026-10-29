@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FKD Deck · apresentar</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; --lime: #E2FF67; --ink: #1E1F2A; --paper: #E4E6F0; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: #15161e; color: var(--paper); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; display: flex; flex-direction: column; }
+  header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 10px 16px; background: var(--ink); border-bottom: 1px solid rgba(228,230,240,.12); }
+  header h1 { font-size: 17px; margin: 0 14px 0 0; white-space: nowrap; }
+  header h1 span { color: var(--lime); }
+  header .sp { flex: 1; }
+  button, label.btn { font: 600 13px/1 system-ui, sans-serif; background: transparent; color: var(--paper); border: 1px solid rgba(228,230,240,.35); border-radius: 999px; padding: 10px 14px; cursor: pointer; white-space: nowrap; }
+  button.primary { background: var(--lime); color: var(--ink); border-color: transparent; }
+  button:disabled { opacity: .4; cursor: default; }
+  input[type=file] { display: none; }
+  main { flex: 1; min-height: 0; display: grid; }
+  #entrada { padding: 28px 24px 40px; max-width: 980px; width: 100%; margin: 0 auto; overflow: auto; }
+  #entrada h2 { font-size: 24px; margin: 0 0 6px; }
+  #entrada p { margin: 0 0 10px; color: rgba(228,230,240,.8); }
+  #entrada ol { margin: 0 0 16px; padding-left: 22px; color: rgba(228,230,240,.8); }
+  textarea { width: 100%; height: 300px; margin: 10px 0 12px; padding: 14px; border-radius: 12px; border: 1px solid rgba(228,230,240,.25); background: #0f1015; color: var(--paper); font: 13px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; resize: vertical; }
+  textarea.drag { border-color: var(--lime); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  #status { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: rgba(255,255,255,.06); white-space: pre-wrap; }
+  #status.ok { background: rgba(226,255,103,.12); color: var(--lime); }
+  #status.bad { background: rgba(233,107,76,.18); color: #ffb39f; }
+  #status.wait { background: rgba(228,230,240,.08); }
+  code { background: rgba(255,255,255,.08); padding: 1px 6px; border-radius: 6px; }
+  a { color: var(--lime); }
+  #palco { display: none; background: #000; position: relative; }
+  #palco iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+  body.has-deck #entrada { display: none; }
+  body.has-deck #palco { display: block; }
+  body.has-deck header .so-deck { display: inline-block; }
+  header .so-deck { display: none; }
+  footer { padding: 8px 16px; font-size: 12px; color: rgba(228,230,240,.5); background: var(--ink); border-top: 1px solid rgba(228,230,240,.12); }
+  footer kbd { font: 600 11px/1 ui-monospace, monospace; background: rgba(255,255,255,.1); padding: 2px 6px; border-radius: 4px; }
+  body.has-deck footer { display: block; }
+</style>
+</head>
+<body>
+<header>
+  <h1><span>FKD Deck</span> · apresentar</h1>
+  <button class="so-deck primary" id="b-full">Tela cheia</button>
+  <button class="so-deck" id="b-tab">Abrir em nova aba</button>
+  <button class="so-deck" id="b-pdf">PDF</button>
+  <button class="so-deck" id="b-check">Verificar</button>
+  <button class="so-deck" id="b-down">Baixar index.html</button>
+  <span class="sp"></span>
+  <button class="so-deck" id="b-code">Código</button>
+  <label class="btn" for="arquivo">Abrir arquivo…</label><input type="file" id="arquivo" accept=".html,.htm,text/html">
+</header>
+<main>
+  <section id="entrada">
+    <h2>Cole o código do deck ou abra o arquivo</h2>
+    <p>Este é o jeito de apresentar, baixar e gerar o PDF de um deck feito pelo Gemini com a skill <code>apresentacao-fkd</code>, sem instalar nada.</p>
+    <ol>
+      <li>No Gemini, com o deck aberto no Canvas, clique em <strong>Code</strong> (canto superior direito) e copie o código inteiro. Ou, dentro do preview, use o botão <strong>Abrir em nova aba</strong>, que já traz o deck para cá.</li>
+      <li>Cole na caixa abaixo (ou arraste o arquivo <code>index.html</code> para ela).</li>
+      <li>Clique em <strong>Apresentar</strong>. Setas avançam; <kbd>F</kbd> tela cheia; <kbd>N</kbd> notas; <kbd>C</kbd> verificação.</li>
+    </ol>
+    <textarea id="src" placeholder="Cole aqui o HTML completo (do <!doctype html> até </html>)…" spellcheck="false"></textarea>
+    <div class="row">
+      <button class="primary" id="b-go" disabled>Apresentar</button>
+      <button id="b-clear">Limpar</button>
+    </div>
+    <div id="status">Aguardando o código…</div>
+  </section>
+  <section id="palco"><iframe id="frame" name="fkd-player" allowfullscreen allow="fullscreen"></iframe></section>
+</main>
+<footer>Setas ou clique avançam · <kbd>F</kbd> tela cheia · <kbd>N</kbd> notas · <kbd>C</kbd> verificação · <kbd>B</kbd> tela preta · Para salvar em PDF, use o botão PDF e depois Ctrl/Cmd+P → "Salvar como PDF", margens "Nenhuma".</footer>
+<script>
+(function () {
+  var CDN = 'https://cdn.jsdelivr.net/gh/FKD-Creators/fkd-deck-engine@main/engine/fkd-boot.js';
+  var $ = function (id) { return document.getElementById(id); };
+  var src = $('src'), status = $('status'), frame = $('frame');
+  var current = '';
+  function say(msg, cls) { status.textContent = msg; status.className = cls || ''; }
+  function store(k, v) { try { if (v == null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) { /* sem storage */ } }
+  function load(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+
+  // Valida e conserta o que dá: o deck precisa ser inteiro e ter a linha do engine.
+  function repair(text) {
+    var t = String(text || '').replace(/\r\n?/g, '\n').trim();
+    var problems = [], fixes = [];
+    if (!t) return { problems: ['vazio'], fixes: fixes, text: '' };
+    // bloco de código markdown colado inteiro
+    t = t.replace(/^```(?:html)?\s*\n/i, '').replace(/\n```\s*$/, '').trim();
+    if (!/^<!doctype html>/i.test(t)) {
+      if (/^<html/i.test(t)) { t = '<!doctype html>\n' + t; fixes.push('doctype adicionado'); }
+      else problems.push('não começa com <!doctype html> (copie o código inteiro, desde a primeira linha)');
+    }
+    if (!/<\/html>\s*$/i.test(t)) {
+      if (/<\/body>\s*$/i.test(t)) { t += '\n</html>'; fixes.push('</html> adicionado'); }
+      else problems.push('não termina com </html> (o código veio cortado; peça ao Gemini o arquivo completo)');
+    }
+    if (!/<section[^>]*class="[^"]*\bslide\b/.test(t)) problems.push('não tem nenhum <section class="slide"> (não é um deck FKD)');
+    if (!/fkd-boot\.js/.test(t) && !/var FKD_ENGINE\s*=/.test(t)) {
+      var line = '<script src="' + CDN + '"><\/script>';
+      if (/<\/title>/i.test(t)) t = t.replace(/<\/title>/i, '</title>\n' + line);
+      else if (/<head[^>]*>/i.test(t)) t = t.replace(/<head[^>]*>/i, function (m) { return m + '\n' + line; });
+      else if (/<html[^>]*>/i.test(t)) t = t.replace(/<html[^>]*>/i, function (m) { return m + '\n<head>' + line + '</head>'; });
+      fixes.push('linha do engine FKD adicionada no <head>');
+      // tags locais soltas que o Gemini às vezes escreve no lugar do carregador
+      t = t.replace(/\s*<link[^>]+href="engine\/[^"]+"[^>]*>/g, '').replace(/\s*<script[^>]+src="engine\/[^"]+"[^>]*><\/script>/g, '');
+    }
+    if (location.protocol === 'file:' && !/src="engine\/fkd-boot\.js"/.test(t) && /fkd-boot\.js/.test(t)) {
+      t = t.replace(/<script src="[^"]*\/fkd-boot\.js"><\/script>/, '<script src="engine/fkd-boot.js"><\/script>\n$&'); fixes.push('engine local (pasta engine/) incluído para uso sem internet');
+    }
+    var slides = (t.match(/<section[^>]*class="[^"]*\bslide\b/g) || []).length;
+    return { problems: problems, fixes: fixes, slides: slides, text: t + '\n' };
+  }
+  function withMode(html, mode) { return html.replace(/<head[^>]*>/i, function (m) { return m + '<script>window.FKD_MODE="' + mode + '"<\/script>'; }); }
+  function blobUrl(html) { return URL.createObjectURL(new Blob([html], { type: 'text/html' })); }
+  function title(html) { var m = html.match(/<title>([^<]*)<\/title>/i); return m ? m[1] : 'deck'; }
+
+  function show(html) {
+    current = html; store('fkd-deck', html);
+    document.body.classList.add('has-deck');
+    frame.srcdoc = html;
+    document.title = title(html) + ' · FKD Deck';
+    setTimeout(function () { try { frame.contentWindow.focus(); } catch (e) { /* sem acesso */ } }, 800);
+  }
+  function update() {
+    var v = repair(src.value);
+    if (!src.value.trim()) { $('b-go').disabled = true; say('Aguardando o código…'); return; }
+    $('b-go').disabled = v.problems.length > 0;
+    if (v.problems.length) say('Ainda não dá para apresentar:\n- ' + v.problems.join('\n- '), 'bad');
+    else say('Deck válido: ' + v.slides + ' slides.' + (v.fixes.length ? ' Ajustes automáticos: ' + v.fixes.join('; ') + '.' : ''), 'ok');
+  }
+  src.addEventListener('input', update);
+  $('b-go').addEventListener('click', function () { var v = repair(src.value); if (!v.problems.length) show(v.text); });
+  $('b-clear').addEventListener('click', function () { src.value = ''; update(); store('fkd-deck', null); });
+  $('b-code').addEventListener('click', function () { document.body.classList.remove('has-deck'); src.value = current; update(); });
+  $('b-full').addEventListener('click', function () { (frame.requestFullscreen ? frame.requestFullscreen() : Promise.reject()).then(function () { frame.contentWindow.focus(); }, function () { say('Tela cheia indisponível aqui; use "Abrir em nova aba" e aperte F.', 'bad'); }); });
+  $('b-tab').addEventListener('click', function () { window.open(blobUrl(current), '_blank'); });
+  $('b-pdf').addEventListener('click', function () { window.open(blobUrl(withMode(current, 'pdf')), '_blank'); });
+  $('b-check').addEventListener('click', function () { try { frame.contentWindow.FKDDeck.openOverlay('check'); } catch (e) { window.open(blobUrl(withMode(current, 'check')), '_blank'); } });
+  $('b-down').addEventListener('click', function () { var a = document.createElement('a'); a.href = blobUrl(current); a.download = 'index.html'; document.body.appendChild(a); a.click(); a.remove(); });
+  $('arquivo').addEventListener('change', function () { var f = this.files && this.files[0]; if (!f) return; f.text().then(function (t) { var v = repair(t); if (v.problems.length) { document.body.classList.remove('has-deck'); src.value = t; update(); } else show(v.text); }); this.value = ''; });
+  // arrastar o index.html para a caixa
+  src.addEventListener('dragover', function (e) { e.preventDefault(); src.classList.add('drag'); });
+  src.addEventListener('dragleave', function () { src.classList.remove('drag'); });
+  src.addEventListener('drop', function (e) { e.preventDefault(); src.classList.remove('drag'); var f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) f.text().then(function (t) { src.value = t; update(); }); });
+
+  // Recebe o deck mandado pelo botão "Abrir em nova aba" de dentro do preview (postMessage)
+  var got = false;
+  addEventListener('message', function (e) {
+    var d = e.data; if (!d || d.type !== 'fkd-deck' || typeof d.html !== 'string') return;
+    if (got) { try { e.source.postMessage({ type: 'fkd-player-got' }, '*'); } catch (x) { /* fechado */ } return; }
+    var v = repair(d.html);
+    try { e.source.postMessage({ type: 'fkd-player-got' }, '*'); } catch (x) { /* fechado */ }
+    got = true;
+    if (v.problems.length) { src.value = d.html; update(); } else show(v.text);
+  });
+  if (location.hash === '#receber') {
+    say('Recebendo o deck do Gemini… Se nada aparecer em alguns segundos, volte ao Gemini, clique em "Code", copie o código e cole aqui.', 'wait');
+    var tries = 0, ping = setInterval(function () { if (got || !window.opener || ++tries > 40) { clearInterval(ping); return; } try { window.opener.postMessage({ type: 'fkd-player-ready' }, '*'); } catch (x) { clearInterval(ping); } }, 500);
+  } else {
+    var saved = load('fkd-deck'); if (saved) { src.value = saved; update(); }
+  }
+})();
+</script>
+</body>
+</html>

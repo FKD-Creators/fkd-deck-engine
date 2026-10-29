@@ -4,38 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Título da apresentação · FKD Creators</title>
-<!-- ======================================================================
-     ENGINE FKD. Não edite este bloco. Duas opções de origem:
-     FKD_ENGINE      = pasta "engine/" ao lado deste arquivo (pasta "FKD Deck" distribuída pela tecnologia)
-     FKD_ENGINE_CDN  = URL hospedada (usada se a pasta local não existir; necessária para o preview no Canvas do Gemini)
-     ====================================================================== -->
-<script>
-  var FKD_ENGINE = "engine/";
-  var FKD_ENGINE_CDN = "https://cdn.jsdelivr.net/gh/FKD-Creators/fkd-deck-engine@main/engine/";
-</script>
-<script>
-(function () {
-  var CSS = ['fonts/fonts.css', 'fkd-deck.css', 'fkd-components.css'], JS = ['fkd-symbols.js', 'fkd-charts.js', 'fkd-deck.js'];
-  CSS.forEach(function (f) { document.write('<link rel="stylesheet" href="' + FKD_ENGINE + f + '">'); });
-  JS.forEach(function (f) { document.write('<script src="' + FKD_ENGINE + f + '" defer><\/script>'); });
-  document.addEventListener('DOMContentLoaded', function () {
-    if (window.FKDCharts) return;                       // engine local carregou
-    var base = FKD_ENGINE_CDN;
-    if (!base) { showHelp(); return; }
-    var pending = CSS.length;
-    CSS.forEach(function (f) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = base + f; l.onload = l.onerror = done; document.head.appendChild(l); });
-    function done() { if (--pending) return; (function next(i) { if (i >= JS.length) return check(); var s = document.createElement('script'); s.src = base + JS[i]; s.async = false; s.onload = function () { next(i + 1); }; s.onerror = showHelp; document.head.appendChild(s); })(0); }
-    function check() { if (!window.FKDDeck) showHelp(); }
-  });
-  function showHelp() {
-    if (document.getElementById('fkd-engine-help')) return;
-    var d = document.createElement('div'); d.id = 'fkd-engine-help';
-    d.style.cssText = 'position:fixed;inset:0;z-index:999999;background:#1E1F2A;color:#E4E6F0;font:18px/1.5 system-ui,sans-serif;padding:48px;';
-    d.innerHTML = '<h1 style="font-size:28px;margin:0 0 16px">Engine FKD não encontrado</h1><p>Este arquivo precisa ficar <strong>dentro da pasta "FKD Deck"</strong> (ao lado da pasta <code>engine/</code>), ou ter a URL hospedada preenchida em <code>FKD_ENGINE_CDN</code> no topo do arquivo.</p><p>Baixe a pasta "FKD Deck" do Drive da FKD (<a href="https://drive.google.com/drive/folders/1f3WLHXSHwgpBC5_kdgfaUR46CRlXF3U_" style="color:#E2FF67">fkd-deck-engine</a>), salve este arquivo como <code>index.html</code> dentro dela e abra de novo.</p>';
-    document.body.appendChild(d);
-  }
-})();
-</script>
+<!-- ENGINE FKD: a linha abaixo carrega todo o sistema visual. Não altere, não remova, não acrescente outras tags de engine. -->
+<script src="engine/fkd-boot.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/FKD-Creators/fkd-deck-engine@main/engine/fkd-boot.js"></script>
+<script>addEventListener('load',function(){if(!window.FKDBoot){document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;inset:0;z-index:999999;background:#1E1F2A;color:#E4E6F0;font:18px/1.5 system-ui,sans-serif;padding:48px"><h1 style="font-size:28px;margin:0 0 16px">Engine FKD não carregou</h1><p>Este arquivo busca o sistema visual na internet. Verifique a conexão e recarregue. Sem internet, ele precisa estar dentro da pasta FKD Deck do Drive da FKD, ao lado da pasta engine/.</p></div>')}})</script>
 <style>
   /* Ajustes específicos deste deck (mantenha curto; o sistema está no engine) */
 </style>
