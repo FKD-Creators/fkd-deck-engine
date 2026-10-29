@@ -1,5 +1,7 @@
 # FKD Deck (engine das apresentações)
 
+Pasta no Drive: https://drive.google.com/drive/folders/1f3WLHXSHwgpBC5_kdgfaUR46CRlXF3U_
+
 Esta pasta é o "motor" das apresentações FKD geradas pelo Gemini com a skill `apresentacao-fkd`.
 Cada apresentação é **uma cópia desta pasta** com o `index.html` trocado.
 
